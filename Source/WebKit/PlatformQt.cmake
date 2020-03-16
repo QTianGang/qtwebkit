@@ -248,17 +248,10 @@ list(APPEND WebKit_SYSTEM_INCLUDE_DIRECTORIES
 # Build the include path with duplicates removed
 list(REMOVE_DUPLICATES WebKit_SYSTEM_INCLUDE_DIRECTORIES)
 
-if (ENABLE_WEBKIT2)
-    if (APPLE)
-        set(WEBKIT2_LIBRARY -Wl,-force_load WebKit2)
-    elseif (MSVC)
-        set(WEBKIT2_LIBRARY "-WHOLEARCHIVE:WebKit2${CMAKE_DEBUG_POSTFIX}")
-    elseif (UNIX OR MINGW)
-        set(WEBKIT2_LIBRARY -Wl,--whole-archive WebKit2 -Wl,--no-whole-archive)
-    else ()
-        message(WARNING "Unknown system, linking with WebKit2 may fail!")
-        set(WEBKIT2_LIBRARY WebKit2)
-    endif ()
+if (ENABLE_WEBKIT2 AND NOT SHARED_CORE)
+    list(APPEND WebKit_SOURCES $<TARGET_OBJECTS:WebKit2>)
+    get_target_property(WebKit2_LIBRARIES WebKit2 LINK_LIBRARIES)
+    list(APPEND WebKit_LIBRARIES ${WebKit2_LIBRARIES})
 endif ()
 
 list(APPEND WebKit_LIBRARIES

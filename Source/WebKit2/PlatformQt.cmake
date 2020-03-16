@@ -8,7 +8,7 @@ file(MAKE_DIRECTORY ${DERIVED_SOURCES_WEBKIT2_DIR})
 if (SHARED_CORE)
     set(WebKit2_LIBRARY_TYPE SHARED)
 else ()
-    set(WebKit2_LIBRARY_TYPE STATIC)
+    set(WebKit2_LIBRARY_TYPE OBJECT)
 endif ()
 
 add_definitions(-DBUILDING_WEBKIT)
